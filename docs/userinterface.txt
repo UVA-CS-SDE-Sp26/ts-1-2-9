@@ -1,0 +1,6 @@
+Discover Files: Run "java topsecret"
+
+View Mode: Run "java topsecret [number] to view a certain file with the standard decryption key"
+
+Decryption Mode: Run "java topsecret [number] [number]" with the first number being the file you want to read
+and the second being the decryption key you want to use
