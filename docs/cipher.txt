@@ -1,0 +1,12 @@
+Read File: ciphers/key.txt
+    First line is the letter second is the key
+
+Input: Encoded String
+
+Setup: Parse key file into a HashMap where Key = CipherChar and Value = PlainChar
+
+Process: Iterate through the input string
+
+Action: If the character exists in the map, replace it; otherwise, keep the original character
+
+Output: Decoded String
