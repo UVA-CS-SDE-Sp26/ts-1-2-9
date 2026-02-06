@@ -1,0 +1,4 @@
+Carnivore, later renamed DCS1000, was a system implemented by the Federal Bureau of Investigation (FBI) that was
+designed to monitor email and electronic communications. It used a customizable packet sniffer that could monitor all
+of a target user's Internet traffic. Carnivore was implemented in October 1997. By 2005 it had been replaced with
+improved commercial software.
