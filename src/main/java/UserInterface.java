@@ -1,5 +1,3 @@
-
-
 public class UserInterface {
     UserInterface(String[] args){
         inputLogic(args);
