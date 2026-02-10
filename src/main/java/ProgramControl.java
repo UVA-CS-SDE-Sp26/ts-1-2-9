@@ -3,8 +3,16 @@ public class ProgramControl {
 
     public ProgramControl() {
     }
-    public ProgramControl(String input1) {
+    public void start(){
+
+
     }
-    public ProgramControl(String input1, String input2) {
+    public void start(String input){
+
+
+    }
+    public void start(String input1, String input2){
+
+
     }
 }
