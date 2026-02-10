@@ -1,0 +1,24 @@
+All file accesses are going to be static methods on the `FileHandler` class. The
+`FileHandler` class will look for files in the `data` directory in the project
+root. It should be placed next to the `src` directory.
+
+## Checking if files can be accessed
+
+```java
+public static boolean checkFile(@NonNull String fileName);
+```
+
+The `checkFile` method will take a non-null file name as a parameter and will
+return `true` if the file exists and can be read, and `false` otherwise.
+
+## Reading files
+
+```java
+public static @Nullable String readFile(@NonNull String fileName);
+```
+
+The `readFile` method will take a non-null file name as a parameter and will
+return the contents of the file as a single string if successful. If the file
+cannot be read, if it does not exist, or if any other error occurs, the method
+will return `null`. Use `checkFile` to verify that the file exists before
+attempting to read it.
