@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileHandler {
-    private static final Path DATA_DIR = Path.of("data");
 
     /**
      * Checks if a file exists and can be read.
@@ -16,7 +15,11 @@ public class FileHandler {
      * @return true if the file exists and can be read, false otherwise
      */
     public static boolean checkFile(@NonNull String directory, @NonNull String fileName) {
-        Path filePath = DATA_DIR.resolve(fileName);
+        if (!directory.equalsIgnoreCase("data")
+            && !directory.equalsIgnoreCase("ciphers")) {
+            throw new IllegalArgumentException("Directory must be 'data' or 'ciphers'");
+        }
+        Path filePath = Path.of(directory).resolve(fileName);
         return Files.exists(filePath)
             && Files.isReadable(filePath)
             && Files.isRegularFile(filePath);
@@ -30,7 +33,11 @@ public class FileHandler {
      * @return the contents of the file, or null if something goes wrong (e.g. file doesn't exist)
      */
     public static @Nullable String readFile(@NonNull String directory, @NonNull String fileName) {
-        Path filePath = DATA_DIR.resolve(fileName);
+        if (!directory.equalsIgnoreCase("data")
+            && !directory.equalsIgnoreCase("ciphers")) {
+            throw new IllegalArgumentException("Directory must be 'data' or 'ciphers'");
+        }
+        Path filePath = Path.of(directory).resolve(fileName);
         try {
             return Files.readString(filePath);
         } catch (IOException e) {
