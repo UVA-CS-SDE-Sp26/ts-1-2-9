@@ -38,42 +38,42 @@ class FileHandlerTest {
 
     @Test
     void checkFile_existingFile_returnsTrue() {
-        assertTrue(FileHandler.checkFile(TEST_FILE_PATH));
+        assertTrue(FileHandler.checkFile("data", TEST_FILE_PATH));
     }
 
     @Test
     void checkFile_nonexistentFile_returnsFalse() {
-        assertFalse(FileHandler.checkFile(NONEXISTENT_FILE_PATH));
+        assertFalse(FileHandler.checkFile("data", NONEXISTENT_FILE_PATH));
     }
 
     @Test
     void checkFile_emptyFileName_returnsFalse() {
-        assertFalse(FileHandler.checkFile(""));
+        assertFalse(FileHandler.checkFile("data", ""));
     }
 
     @Test
     void checkFile_inaccessibleFile_returnsFalse() {
-        assertFalse(FileHandler.checkFile(INACCESSIBLE_FILE_PATH));
+        assertFalse(FileHandler.checkFile("data", INACCESSIBLE_FILE_PATH));
     }
 
     @Test
     void readFile_existingFile_returnsContent() {
-        String content = FileHandler.readFile(TEST_FILE_PATH);
+        String content = FileHandler.readFile("data", TEST_FILE_PATH);
         assertEquals(TEST_FILE_CONTENT, content);
     }
 
     @Test
     void readFile_nonexistentFile_returnsNull() {
-        assertNull(FileHandler.readFile(NONEXISTENT_FILE_PATH));
+        assertNull(FileHandler.readFile("data", NONEXISTENT_FILE_PATH));
     }
 
     @Test
     void readFile_emptyFileName_returnsNull() {
-        assertNull(FileHandler.readFile(""));
+        assertNull(FileHandler.readFile("data", ""));
     }
 
     @Test
     void readFile_inaccessibleFile_returnsNull() {
-        assertNull(FileHandler.readFile(INACCESSIBLE_FILE_PATH));
+        assertNull(FileHandler.readFile("data", INACCESSIBLE_FILE_PATH));
     }
 }

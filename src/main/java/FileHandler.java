@@ -9,12 +9,13 @@ public class FileHandler {
     private static final Path DATA_DIR = Path.of("data");
 
     /**
-     * Checks if a file within the data directory exists and can be read.
+     * Checks if a file exists and can be read.
      *
-     * @param fileName the name of the file to check (relative to data directory)
+     * @param directory the directory to check (relative to the project root). Must be "data" or "ciphers".
+     * @param fileName  the name of the file to check (relative to directory)
      * @return true if the file exists and can be read, false otherwise
      */
-    public static boolean checkFile(@NonNull String fileName) {
+    public static boolean checkFile(@NonNull String directory, @NonNull String fileName) {
         Path filePath = DATA_DIR.resolve(fileName);
         return Files.exists(filePath)
             && Files.isReadable(filePath)
@@ -22,12 +23,13 @@ public class FileHandler {
     }
 
     /**
-     * Reads the entire contents of a file within the data directory.
+     * Reads the entire contents of a file.
      *
-     * @param fileName the name of the file to read (relative to data directory)
+     * @param directory the directory to read from (relative to the project root). Must be "data" or "ciphers".
+     * @param fileName  the name of the file to read (relative to directory)
      * @return the contents of the file, or null if something goes wrong (e.g. file doesn't exist)
      */
-    public static @Nullable String readFile(@NonNull String fileName) {
+    public static @Nullable String readFile(@NonNull String directory, @NonNull String fileName) {
         Path filePath = DATA_DIR.resolve(fileName);
         try {
             return Files.readString(filePath);
