@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileHandlerTest {
     private static final Path DATA_DIR = Path.of("data");
+    private static final Path CIPHERS_DIR = Path.of("ciphers");
     private static final String TEST_FILE_PATH = "test_file_6789.txt";
     private static final String TEST_FILE_CONTENT = "Hello, World!\nLine 2";
     private static final String NONEXISTENT_FILE_PATH = "nonexistent_file_12345.txt";
@@ -18,7 +19,9 @@ class FileHandlerTest {
     @BeforeAll
     static void setUp() throws IOException {
         Files.createDirectories(DATA_DIR);
+        Files.createDirectories(CIPHERS_DIR);
         Files.writeString(DATA_DIR.resolve(TEST_FILE_PATH), TEST_FILE_CONTENT);
+        Files.writeString(CIPHERS_DIR.resolve(TEST_FILE_PATH), TEST_FILE_CONTENT);
 
         Path inaccessibleFile = DATA_DIR.resolve(INACCESSIBLE_FILE_PATH);
         if (Files.notExists(inaccessibleFile)) {
@@ -34,11 +37,17 @@ class FileHandlerTest {
     static void tearDown() throws IOException {
         Files.deleteIfExists(DATA_DIR.resolve(TEST_FILE_PATH));
         Files.deleteIfExists(DATA_DIR.resolve(INACCESSIBLE_FILE_PATH));
+        Files.deleteIfExists(CIPHERS_DIR.resolve(TEST_FILE_PATH));
     }
 
     @Test
-    void checkFile_existingFile_returnsTrue() {
+    void checkFile_existingFileInData_returnsTrue() {
         assertTrue(FileHandler.checkFile("data", TEST_FILE_PATH));
+    }
+
+    @Test
+    void checkFile_existingFileInCiphers_returnsTrue() {
+        assertTrue(FileHandler.checkFile("ciphers", TEST_FILE_PATH));
     }
 
     @Test
@@ -57,8 +66,20 @@ class FileHandlerTest {
     }
 
     @Test
-    void readFile_existingFile_returnsContent() {
+    void checkFile_invalidDirectory_throwsException() {
+        assertThrows(IllegalArgumentException.class, () ->
+            FileHandler.checkFile("invalid", TEST_FILE_PATH));
+    }
+
+    @Test
+    void readFile_existingFileInData_returnsContent() {
         String content = FileHandler.readFile("data", TEST_FILE_PATH);
+        assertEquals(TEST_FILE_CONTENT, content);
+    }
+
+    @Test
+    void readFile_existingFileInCiphers_returnsContent() {
+        String content = FileHandler.readFile("ciphers", TEST_FILE_PATH);
         assertEquals(TEST_FILE_CONTENT, content);
     }
 
@@ -75,5 +96,11 @@ class FileHandlerTest {
     @Test
     void readFile_inaccessibleFile_returnsNull() {
         assertNull(FileHandler.readFile("data", INACCESSIBLE_FILE_PATH));
+    }
+
+    @Test
+    void readFile_invalidDirectory_throwsException() {
+        assertThrows(IllegalArgumentException.class, () ->
+            FileHandler.readFile("invalid", TEST_FILE_PATH));
     }
 }
