@@ -1,25 +1,59 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class UserInterfaceTest {
 
+    private ProgramControl mockPc;
+
+    @BeforeEach
+    void setUp() {
+        mockPc = Mockito.mock(ProgramControl.class);
+    }
+
     @Test
-    void testInvalidArguments() {
-        // Capture system output
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
+    void test_oneArgumentCall() {
+//        when(mockPc.start()).thenReturn("started");
 
-        // too many arguments
-        String[] args = {"arg0", "arg1", "arg2", "arg3"};
-        new UserInterface(args); // constructs ProgramControl internally
+        String[] args = {"TopSecret"};
+        new UserInterface(mockPc, args);
 
-        String output = outContent.toString();
-        assertTrue(output.contains("Invalid number of command line arguments"));
+        verify(mockPc, times(1)).start();
+    }
 
-        // Reset output
-        System.setOut(System.out);
+    @Test
+    void test_twoArgumentsCall() {
+//        when(mockPc.start("01")).thenReturn("started1");
+
+        String[] args = {"TopSecret", "01"};
+        new UserInterface(mockPc, args);
+
+        verify(mockPc, times(1)).start("01");
+    }
+
+    @Test
+    void test_threeArgumentsCall() {
+//        when(mockPc.start("01", "02")).thenReturn("started2");
+
+        String[] args = {"TopSecret", "01", "02"};
+        new UserInterface(mockPc, args);
+
+        verify(mockPc, times(1)).start("01", "02");
+    }
+
+    @Test
+    void test_invalidArguments_returnsErrorMessage() {
+        String[] args = {"TopSecret", "b", "c", "d"};
+        UserInterface ui = new UserInterface(mockPc, args);
+
+        String result = ui.inputLogic(args);
+
+        assertEquals(
+                "Invalid number of command line arguments. Please refer to userinterface.txt for valid commands",
+                result
+        );
     }
 }

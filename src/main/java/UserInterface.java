@@ -1,29 +1,27 @@
 public class UserInterface {
-        private ProgramControl pc;
+    private ProgramControl pc;
 
-        UserInterface(String[] args){
-            this.pc = new ProgramControl();
-            inputLogic(args);
-        }
+    UserInterface(String[] args){this(new ProgramControl(), args);}
 
+    // Constructor for testing
+    UserInterface(ProgramControl pc, String[] args){
+        this.pc = pc;
+        inputLogic(args);
+    }
 
-
-    /**
-     * Checks the amount of inputs within the
-     */
-    public void inputLogic(String[] args){
+    public String inputLogic(String[] args){
         if(args.length == 1){
-            pc.start();
+            return pc.start();
         }
         else if(args.length == 2){
-            pc.start(args[1]);
+            return pc.start(args[1]);
         }
         else if(args.length == 3){
-            pc.start(args[1], args[2]);
+            return pc.start(args[1], args[2]);
         }
         else{
-            System.out.print("Invalid number of command line arguments. " +
-                    "Please refer to userinterface.txt for valid commands");
+            return "Invalid number of command line arguments. " +
+                    "Please refer to userinterface.txt for valid commands";
         }
     }
 }
