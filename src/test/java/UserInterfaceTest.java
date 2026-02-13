@@ -16,9 +16,9 @@ class UserInterfaceTest {
 
     @Test
     void test_oneArgumentCall() {
-//        when(mockPc.start()).thenReturn("started");
+        when(mockPc.start()).thenReturn("started");
 
-        String[] args = {"TopSecret"};
+        String[] args = {};
         new UserInterface(mockPc, args);
 
         verify(mockPc, times(1)).start();
@@ -26,9 +26,9 @@ class UserInterfaceTest {
 
     @Test
     void test_twoArgumentsCall() {
-//        when(mockPc.start("01")).thenReturn("started1");
+        when(mockPc.start("01")).thenReturn("started1");
 
-        String[] args = {"TopSecret", "01"};
+        String[] args = {"01"};
         new UserInterface(mockPc, args);
 
         verify(mockPc, times(1)).start("01");
@@ -36,9 +36,9 @@ class UserInterfaceTest {
 
     @Test
     void test_threeArgumentsCall() {
-//        when(mockPc.start("01", "02")).thenReturn("started2");
+        when(mockPc.start("01", "02")).thenReturn("started2");
 
-        String[] args = {"TopSecret", "01", "02"};
+        String[] args = {"01", "02"};
         new UserInterface(mockPc, args);
 
         verify(mockPc, times(1)).start("01", "02");
@@ -46,13 +46,14 @@ class UserInterfaceTest {
 
     @Test
     void test_invalidArguments_returnsErrorMessage() {
-        String[] args = {"TopSecret", "b", "c", "d"};
+        String[] args = { "a", "b", "c"};
         UserInterface ui = new UserInterface(mockPc, args);
 
         String result = ui.inputLogic(args);
 
         assertEquals(
-                "Invalid number of command line arguments. Please refer to userinterface.txt for valid commands",
+                "Invalid number of command line arguments: " + args.length +
+                        "\nPlease refer to userinterface.txt for valid commands",
                 result
         );
     }
