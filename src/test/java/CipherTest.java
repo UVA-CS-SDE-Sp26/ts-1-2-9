@@ -7,8 +7,8 @@ class CipherTest {
     @Test
     void encrypt_decrypt_returnsOriginalText() {
         String originalText = "Hello, World!";
-        String encryptedText = Cipher.decrypt(originalText,);
-        String decryptedText = Cipher.decrypt(encryptedText);
+        String encryptedText = Cipher.decrypt(originalText, "key.txt");
+        String decryptedText = Cipher.decrypt(encryptedText, "key.txt");
 
     }
 
@@ -17,7 +17,7 @@ class CipherTest {
         // Z(encoded) from line 2 should return A(decoded) from line 1
         String input = "B";
         String expected = "A";
-        String actual = Cipher.decrypt(input);
+        String actual = Cipher.decrypt(input   , "key.txt");
         assertEquals( expected, actual,"Single letter decryption failed");
     }
 
@@ -26,7 +26,7 @@ class CipherTest {
         // Z Z(encoded) should return A A(decoded) and spaces should be unchanged
         String input = "B B";
         String expected = "A A";
-        String actual = Cipher.decrypt(input);
+        String actual = Cipher.decrypt(input, "key.txt");
         assertEquals(expected, actual, "Decryption with spaces failed");
     }
 
@@ -35,7 +35,7 @@ class CipherTest {
         // '!' is not in the key file, so it should remain unchanged
         String input = "B!";
         String expected = "A!";
-        String actual = Cipher.decrypt(input);
+        String actual = Cipher.decrypt(input, "key.txt");
         assertEquals(expected, actual, "Unknown characters should be ignored");
     }
 }
