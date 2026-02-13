@@ -1,0 +1,16 @@
+program control testing plan
+
+text listing files with no arguments
+    -expected: numbered list of files in data folder
+
+test reading a file with one argument
+    -input: file number
+    -expected: contents of said file
+test decrypting a file with two arguments
+    -input: file number + cipher key  <- two args
+    -expected: decrypted contents of that file
+test invalid file number
+    -input number out of range or a character that isnt a number
+    -expected "invalid file number"
+test when data folder is empty
+    -expected: "no files found"
