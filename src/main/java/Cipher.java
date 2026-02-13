@@ -2,9 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 public class Cipher {
     private static Map<Character, Character> decodingMap = null;
-    private static final String KEY_FILE = "key.txt";
 
-    public static String decrypt(String input, String keyContent) {
+    public static String decrypt(String input, String fileName) {
+        String keyContent = FileHandler.readFile("ciphers", fileName);
         if (keyContent == null || keyContent.isEmpty()) {
             return input; // Return input as is if the key file is missing or empty
         }

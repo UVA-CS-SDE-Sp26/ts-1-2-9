@@ -7,7 +7,7 @@ class CipherTest {
     @Test
     void encrypt_decrypt_returnsOriginalText() {
         String originalText = "Hello, World!";
-        String encryptedText = Cipher.decrypt(originalText);
+        String encryptedText = Cipher.decrypt(originalText,);
         String decryptedText = Cipher.decrypt(encryptedText);
 
     }
