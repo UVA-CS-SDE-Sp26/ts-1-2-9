@@ -5,6 +5,7 @@ import java.util.logging.FileHandler;
  */
 public class TopSecret {
     public static void main(String[] args) {
-        UserInterface ui = new UserInterface(args);
-}
+        UserInterface ui = new UserInterface();
+        System.out.println(ui.inputLogic(args));
+    }
 }
