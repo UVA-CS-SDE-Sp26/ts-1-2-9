@@ -1,16 +1,46 @@
-program control testing plan
+All program control operations are going to be instance methods on the
+`ProgramControl` class. The `ProgramControl` class connects the command line
+interface to the file handler and cipher components. It retrieves files from
+the `data` directory (via `FileHandler`) and optionally decrypts them (via
+`Cipher`). This class should be instantiated by the user interface layer.
 
-text listing files with no arguments
-    -expected: numbered list of files in data folder
+## Listing files
 
-test reading a file with one argument
-    -input: file number
-    -expected: contents of said file
-test decrypting a file with two arguments
-    -input: file number + cipher key  <- two args
-    -expected: decrypted contents of that file
-test invalid file number
-    -input number out of range or a character that isnt a number
-    -expected "invalid file number"
-test when data folder is empty
-    -expected: "no files found"
+```java
+public String start();
+```
+
+The `start` method with no arguments will list all files in the `data`
+directory with corresponding numbers. Each file is displayed on a separate
+line with a two-digit number (01, 02, etc.) followed by the file name. If
+the `data` directory is empty or does not exist, the method returns
+`"No files found."`.
+
+## Reading and decrypting a file with default cipher key
+
+```java
+public String start(@NonNull String arg);
+```
+
+The `start` method with one argument will read a file from the `data`
+directory by its number (1-based index from the listing) and decrypt it
+using the default cipher key (`key.txt` from the `ciphers` directory). The
+`arg` parameter must be a valid number corresponding to a file in the listing.
+If the file number is invalid (out of range, negative, zero, or not a number),
+the method returns `"Invalid file number."`. If the `data` directory is empty
+or does not exist, the method returns `"No files found."`. If the file cannot
+be read, the method returns `"Error reading file."`.
+
+## Reading and decrypting a file with specified cipher key
+
+```java
+public String start(@NonNull String arg, @NonNull String path);
+```
+
+The `start` method with two arguments will read a file from the `data`
+directory by its number and decrypt it using the specified cipher key file
+from the `ciphers` directory. The `arg` parameter must be a valid file number
+(1-based index), and the `path` parameter specifies the cipher key file name.
+Error handling is the same as the single-argument version: returns
+`"Invalid file number."` for invalid numbers, `"No files found."` for empty
+directory, and `"Error reading file."` for file access errors.
