@@ -4,8 +4,7 @@ public class Cipher {
     private static Map<Character, Character> decodingMap = null;
     private static final String KEY_FILE = "key.txt";
 
-    public static String decrypt(String input) {
-        String keyContent = FileHandler.readFile("ciphers", KEY_FILE);
+    public static String decrypt(String input, String keyContent) {
         if (keyContent == null || keyContent.isEmpty()) {
             return input; // Return input as is if the key file is missing or empty
         }
