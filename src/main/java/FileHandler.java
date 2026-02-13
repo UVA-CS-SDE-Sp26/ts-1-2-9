@@ -4,6 +4,8 @@ import org.jspecify.annotations.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class FileHandler {
 
@@ -40,6 +42,28 @@ public class FileHandler {
         Path filePath = Path.of(directory).resolve(fileName);
         try {
             return Files.readString(filePath);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Lists all regular files in a directory.
+     *
+     * @param directory the directory to list (relative to the project root). Must be "data" or "ciphers".
+     * @return a list of file names, or null if the directory doesn't exist or can't be read
+     */
+    public static @Nullable List<String> listFiles(@NonNull String directory) {
+        if (!directory.equalsIgnoreCase("data")
+            && !directory.equalsIgnoreCase("ciphers")) {
+            throw new IllegalArgumentException("Directory must be 'data' or 'ciphers'");
+        }
+        Path dirPath = Path.of(directory);
+        try (Stream<Path> stream = Files.list(dirPath)) {
+            return stream
+                .filter(Files::isRegularFile)
+                .map(path -> path.getFileName().toString())
+                .toList();
         } catch (IOException e) {
             return null;
         }

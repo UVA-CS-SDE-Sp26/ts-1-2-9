@@ -32,3 +32,19 @@ and will return the contents of the file as a single string if successful. The
 will raise an exception. If the file cannot be read, if it does not exist, or if
 any other error occurs, the method will return `null`. Use `checkFile` to verify
 that the file exists before attempting to read it.
+
+## Listing files
+
+```java
+public static @Nullable List<String> listFiles(
+    @NonNull String directory
+);
+```
+
+The `listFiles` method will take a non-null directory as a parameter and will
+return a list of file names (as strings) in that directory. The `directory`
+parameter must be either `"ciphers"` or `"data"` - any other value will raise
+an exception. Only regular files are included in the list, not subdirectories.
+If the directory does not exist, cannot be read, or if any other error occurs,
+the method will return `null`. An empty list is returned if the directory
+exists but contains no files.
