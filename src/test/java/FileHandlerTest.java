@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +24,15 @@ class FileHandlerTest {
         Files.createDirectories(CIPHERS_DIR);
         Files.writeString(DATA_DIR.resolve(TEST_FILE_PATH), TEST_FILE_CONTENT);
         Files.writeString(CIPHERS_DIR.resolve(TEST_FILE_PATH), TEST_FILE_CONTENT);
+    }
 
+    @AfterAll
+    static void tearDown() throws IOException {
+        Files.deleteIfExists(DATA_DIR.resolve(TEST_FILE_PATH));
+        Files.deleteIfExists(CIPHERS_DIR.resolve(TEST_FILE_PATH));
+    }
+
+    private static void setUpInaccessibleFile() throws IOException {
         Path inaccessibleFile = DATA_DIR.resolve(INACCESSIBLE_FILE_PATH);
         if (Files.notExists(inaccessibleFile)) {
             Files.createFile(inaccessibleFile);
@@ -33,11 +43,8 @@ class FileHandlerTest {
         }
     }
 
-    @AfterAll
-    static void tearDown() throws IOException {
-        Files.deleteIfExists(DATA_DIR.resolve(TEST_FILE_PATH));
+    private static void tearDownInaccessibleFile() throws IOException {
         Files.deleteIfExists(DATA_DIR.resolve(INACCESSIBLE_FILE_PATH));
-        Files.deleteIfExists(CIPHERS_DIR.resolve(TEST_FILE_PATH));
     }
 
     @Test
@@ -61,8 +68,14 @@ class FileHandlerTest {
     }
 
     @Test
-    void checkFile_inaccessibleFile_returnsFalse() {
-        assertFalse(FileHandler.checkFile("data", INACCESSIBLE_FILE_PATH));
+    @EnabledOnOs({OS.MAC, OS.LINUX})
+    void checkFile_inaccessibleFile_returnsFalse() throws IOException {
+        setUpInaccessibleFile();
+        try {
+            assertFalse(FileHandler.checkFile("data", INACCESSIBLE_FILE_PATH));
+        } finally {
+            tearDownInaccessibleFile();
+        }
     }
 
     @Test
@@ -94,8 +107,14 @@ class FileHandlerTest {
     }
 
     @Test
-    void readFile_inaccessibleFile_returnsNull() {
-        assertNull(FileHandler.readFile("data", INACCESSIBLE_FILE_PATH));
+    @EnabledOnOs({OS.MAC, OS.LINUX})
+    void readFile_inaccessibleFile_returnsNull() throws IOException {
+        setUpInaccessibleFile();
+        try {
+            assertNull(FileHandler.readFile("data", INACCESSIBLE_FILE_PATH));
+        } finally {
+            tearDownInaccessibleFile();
+        }
     }
 
     @Test
